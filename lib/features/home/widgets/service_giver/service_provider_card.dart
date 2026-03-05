@@ -13,6 +13,25 @@ class ProviderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    final professionList = provider['provider_professions'];
+
+String profession = 'No profession';
+String price = 'N/A';
+
+if (professionList != null && professionList.isNotEmpty) {
+  final profData = professionList[0];
+
+  final prof = profData['professions'];
+
+  if (prof != null && prof['name'] != null) {
+    profession = prof['name'];
+  }
+
+  if (profData['price'] != null) {
+    price = profData['price'].toString();
+  }
+}
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -43,9 +62,10 @@ class ProviderCard extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold)),
 
-                 // Text(provider['profession'],
-                   //   style: const TextStyle(
-                     //     color: Colors.grey)),
+                 Text(
+  profession,
+  style: const TextStyle(color: Colors.grey),
+),
 
                   const SizedBox(height: 10),
 
@@ -60,15 +80,13 @@ class ProviderCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   
-
-          /// Price
-          const Text(
-            "45/hr QAR",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+Text(
+  "$price /hr QAR",
+  style: const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+  ),
+),
 
           const SizedBox(height: 14),
 

@@ -9,8 +9,16 @@ class CategoryRepository {
   }) async {
 
     final baseQuery = supabase
-        .from('providers')
-        .select()
+        .from('service_providers')
+        .select('''
+        *,
+        provider_professions(
+          price,
+          professions(
+            name
+          )
+        )
+        ''')
         .eq('service_id', serviceId);
 
     final response = switch (filter) {

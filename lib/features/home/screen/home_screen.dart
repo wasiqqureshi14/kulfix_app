@@ -21,7 +21,7 @@ class HomeScreen extends ConsumerWidget {
                     child: HomeHeader(),
                   ),
       
-                  SliverToBoxAdapter(
+                const  SliverToBoxAdapter(
                     child: ServiceGrid(),
                   ),
       

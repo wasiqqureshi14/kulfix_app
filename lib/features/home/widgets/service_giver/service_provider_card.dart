@@ -16,19 +16,21 @@ class ProviderCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
+      width: 240,
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(.08),
-              blurRadius: 8,
-            )
-          ],
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 05,
+            spreadRadius: 1,
+            offset: const Offset(0, 4),
+          ),
+        ],
         ),
-        child: Row(
+        child: Column(
           children: [
 
             const CircleAvatar(radius: 26),
@@ -36,47 +38,63 @@ class ProviderCard extends StatelessWidget {
             const SizedBox(width: 12),
 
            
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+           
                   Text(provider['full_name'],
                       style: const TextStyle(
                           fontWeight: FontWeight.bold)),
 
-                  Text(provider['profession'],
-                      style: const TextStyle(
-                          color: Colors.grey)),
+                 // Text(provider['profession'],
+                   //   style: const TextStyle(
+                     //     color: Colors.grey)),
 
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 10),
 
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Icon(Icons.star,
                           color: Colors.orange, size: 16),
                       Text(
                           "${provider['rating']} (${provider['total_reviews']})")
                     ],
-                  )
-                ],
-              ),
-            ),
+                  ),
+                  const SizedBox(height: 10),
+                  
 
-            /// button
-            Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              decoration: const BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
+          /// Price
+          const Text(
+            "45/hr QAR",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+
+          const SizedBox(height: 14),
+
+                  SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
               child: const Text(
-                "Book\nNow",
-                textAlign: TextAlign.center,
-                style:
-                    TextStyle(color: Colors.white, fontSize: 11),
+                "Book Now",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-            )
+            ),
+          ),
+                
+              
+          
           ],
         ),
       ),

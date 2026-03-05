@@ -1,107 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/home/providers/greeting_provider.dart';
+import 'package:kulfix/features/home/providers/user_name_provider.dart';
 import 'package:kulfix/features/home/widgets/saerch_bar.dart';
-import 'package:kulfix/core/services/supabase_services.dart';
+
 
 class HomeHeader extends ConsumerWidget {
   const HomeHeader({super.key});
+@override
+Widget build(BuildContext context, WidgetRef ref) {
 
-  /// Dynamic greeting based on device time
-  String _getGreeting() {
-    final hour = DateTime.now().hour;
+  final greeting = ref.watch(greetingProvider);
+  final userAsync = ref.watch(userNameProvider);
 
-    if (hour >= 5 && hour < 12) {
-      return "Good Morning";
-    } else if (hour >= 12 && hour < 17) {
-      return "Good Afternoon";
-    } else if (hour >= 17 && hour < 21) {
-      return "Good Evening";
-    } else {
-      return "Good Night";
-    }
-  }
+  return Container(
+    padding: EdgeInsets.all(20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
 
-  /// Fetch profile name from Supabase
-  Future<String> _fetchUserName() async {
-    final user = supabase.auth.currentUser;
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
 
-    if (user == null) return "User";
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-    final response = await supabase
-        .from('user_profiles')
-        .select('full_name')
-        .eq('id', user.id)
-        .single();
+                Text(
+                  greeting,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
+                ),
 
-    return response['full_name'] ?? "User";
-  }
+                SizedBox(height:6),
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+                userAsync.when(
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-
-              /// LEFT SIDE TEXTS
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  /// Greeting
-                  Text(
-                    _getGreeting(),
+                  loading: () => Text(
+                    "User",
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  SizedBox(height:6),
-
-                  /// Username (loads silently in background)
-                  FutureBuilder<String>(
-                    future: _fetchUserName(),
-                    builder: (context, snapshot) {
-
-                      final name =
-                          snapshot.data ?? "User";
-
-                      return Text(
-                        "$name ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    },
+                  error: (_, __) => Text(
+                    "User",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ],
-              ),
 
-              /// Notification Icon
-              Container(
-                padding: EdgeInsets.all(10),
-                child: const Icon(
-                  Icons.notifications,
-                  color: Colors.black87,
+                  data: (name) => Text(
+                    name,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              )
-            ],
-          ),
+              ],
+            ),
 
-          SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: const Icon(
+                Icons.notifications,
+                color: Colors.black87,
+              ),
+            )
+          ],
+        ),
 
-          const SearchBarWidget(),
-        ],
-      ),
-    );
-  }
+        SizedBox(height: 20),
+
+        const SearchBarWidget(),
+      ],
+    ),
+  );
+}
 }

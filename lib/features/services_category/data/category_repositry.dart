@@ -13,7 +13,6 @@ class CategoryRepository {
         .select()
         .eq('service_id', serviceId);
 
-    /// APPLY FILTER (return ordered query directly)
     final response = switch (filter) {
 
       ProviderFilter.highestRated =>

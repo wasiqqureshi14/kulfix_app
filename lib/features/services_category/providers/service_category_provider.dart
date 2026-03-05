@@ -6,44 +6,73 @@ import 'package:kulfix/features/services_category/models/service_giver_filter.da
 final categoryRepoProvider =
     Provider((ref) => CategoryRepository());
 
-class CategoryNotifier extends StateNotifier<
-    AsyncValue<List<Map<String, dynamic>>>> {
+class CategoryState {
+  final List<Map<String, dynamic>> providers;
+  final ProviderFilter selectedFilter;
+  final bool isLoading;
+
+  const CategoryState({
+    this.providers = const [],
+    this.selectedFilter = ProviderFilter.all,
+    this.isLoading = true,
+  });
+
+  CategoryState copyWith({
+    List<Map<String, dynamic>>? providers,
+    ProviderFilter? selectedFilter,
+    bool? isLoading,
+  }) {
+    return CategoryState(
+      providers: providers ?? this.providers,
+      selectedFilter: selectedFilter ?? this.selectedFilter,
+      isLoading: isLoading ?? this.isLoading,
+    );
+  }
+}
+
+class CategoryNotifier
+    extends StateNotifier<CategoryState> {
 
   CategoryNotifier(this.ref, this.serviceId)
-      : super(const AsyncValue.loading()) {
+      : super(const CategoryState()) {
     loadProviders();
   }
 
   final Ref ref;
   final String serviceId;
 
-  ProviderFilter get selectedFilter => currentFilter;
-  ProviderFilter currentFilter = ProviderFilter.all;
-
   Future<void> loadProviders() async {
-    try {
-      final repo = ref.read(categoryRepoProvider);
 
-      final data = await repo.fetchProviders(
-        serviceId: serviceId,
-        filter: currentFilter,
-      );
+    state = state.copyWith(isLoading: true);
 
-      state = AsyncValue.data(data);
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
+    final repo = ref.read(categoryRepoProvider);
+
+    final data = await repo.fetchProviders(
+      serviceId: serviceId,
+      filter: state.selectedFilter,
+    );
+
+    state = state.copyWith(
+      providers: data,
+      isLoading: false,
+    );
   }
 
   void changeFilter(ProviderFilter filter) {
-    currentFilter = filter;
+
+    state = state.copyWith(
+      selectedFilter: filter,
+    );
+
     loadProviders();
   }
 }
 
-final categoryProviders = StateNotifierProvider.family<
-    CategoryNotifier,
-    AsyncValue<List<Map<String, dynamic>>>,
-    String>((ref, serviceId) {
+final categoryProviders =
+    StateNotifierProvider.family<
+        CategoryNotifier,
+        CategoryState,
+        String>((ref, serviceId) {
+
   return CategoryNotifier(ref, serviceId);
 });

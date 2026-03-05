@@ -4,6 +4,7 @@ import 'package:kulfix/features/services_category/providers/service_category_pro
 import '../models/service_giver_filter.dart';
 
 class ProviderFilterBar extends ConsumerWidget {
+
   final String serviceId;
 
   const ProviderFilterBar({
@@ -14,52 +15,45 @@ class ProviderFilterBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+    final state = ref.watch(categoryProviders(serviceId));
+
     final notifier =
         ref.read(categoryProviders(serviceId).notifier);
 
-    final selectedFilter =
-        notifier.selectedFilter;
-
     return Padding(
-      /// ✅ GAP BETWEEN APPBAR & FILTER ROW
       padding: const EdgeInsets.only(top: 12, bottom: 10),
+
       child: SizedBox(
         height: 42,
+
         child: ListView(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 16),
+
           children: [
 
             _FilterChip(
               title: "All",
-              selected:
-                  selectedFilter == ProviderFilter.all,
-              onTap: () =>
-                  notifier.changeFilter(ProviderFilter.all),
+              selected: state.selectedFilter == ProviderFilter.all,
+              onTap: () => notifier.changeFilter(ProviderFilter.all),
             ),
 
             _FilterChip(
               title: "Highest Rated",
-              selected: selectedFilter ==
-                  ProviderFilter.highestRated,
-              onTap: () => notifier.changeFilter(
-                  ProviderFilter.highestRated),
+              selected: state.selectedFilter == ProviderFilter.highestRated,
+              onTap: () => notifier.changeFilter(ProviderFilter.highestRated),
             ),
 
             _FilterChip(
               title: "Lowest Rated",
-              selected: selectedFilter ==
-                  ProviderFilter.lowestRated,
-              onTap: () => notifier.changeFilter(
-                  ProviderFilter.lowestRated),
+              selected: state.selectedFilter == ProviderFilter.lowestRated,
+              onTap: () => notifier.changeFilter(ProviderFilter.lowestRated),
             ),
 
             _FilterChip(
               title: "Most Reviews",
-              selected: selectedFilter ==
-                  ProviderFilter.mostReviewed,
-              onTap: () => notifier.changeFilter(
-                  ProviderFilter.mostReviewed),
+              selected: state.selectedFilter == ProviderFilter.mostReviewed,
+              onTap: () => notifier.changeFilter(ProviderFilter.mostReviewed),
             ),
           ],
         ),
@@ -68,8 +62,8 @@ class ProviderFilterBar extends ConsumerWidget {
   }
 }
 
-/// ---------------- CHIP ----------------
 class _FilterChip extends StatelessWidget {
+
   final String title;
   final bool selected;
   final VoidCallback onTap;
@@ -82,10 +76,13 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Padding(
       padding: const EdgeInsets.only(right: 10),
+
       child: GestureDetector(
         onTap: onTap,
+
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
 
@@ -95,22 +92,16 @@ class _FilterChip extends StatelessWidget {
           ),
 
           decoration: BoxDecoration(
-            color: selected
-                ? Colors.black
-                : Colors.white,
+            color: selected ? Colors.black : Colors.white,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(
-              color: Colors.black12,
-            ),
+            border: Border.all(color: Colors.black12),
           ),
 
           child: Text(
             title,
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: selected
-                  ? Colors.white
-                  : Colors.black,
+              color: selected ? Colors.white : Colors.black,
             ),
           ),
         ),

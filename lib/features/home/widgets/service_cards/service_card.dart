@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kulfix/features/home/utils/service_icon_mapper.dart';
 
 class ServiceCard extends StatelessWidget {
   final Map service;
@@ -7,25 +8,6 @@ class ServiceCard extends StatelessWidget {
   const ServiceCard({ super.key,
   required this.service,
   this.onTap,});
-
-  IconData _getIcon(String? iconName) {
-    switch (iconName) {
-      case 'cleaning_services':
-        return Icons.cleaning_services;
-      case 'plumbing':
-        return Icons.plumbing;
-      case 'electrical_services':
-        return Icons.electrical_services;
-      case 'ac_unit':
-        return Icons.ac_unit;
-      case 'format_paint':
-        return Icons.format_paint;
-      case 'home_repair_service':
-        return Icons.home_repair_service;
-      default:
-        return Icons.miscellaneous_services;
-    }
-  }
 
   @override
 Widget build(BuildContext context) {
@@ -55,7 +37,7 @@ Widget build(BuildContext context) {
     
           /// ICON
           Icon(
-            _getIcon(service['icon']),
+  getServiceIcon(service['icon']),
             size: 58,
             color: Colors.black87,
           ),

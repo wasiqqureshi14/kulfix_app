@@ -65,7 +65,7 @@ class ServiceGrid extends ConsumerWidget {
               final service = services[i];
 
               return SizedBox(
-                width: MediaQuery.of(context).size.width * 0.45,
+               width: screenWidth * 0.45,
                 child: ServiceCard(
                   service: service,
                   onTap: () {

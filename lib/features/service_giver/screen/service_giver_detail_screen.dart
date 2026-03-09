@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kulfix/features/service_giver/providers/giver_provider.dart';
+import 'package:kulfix/features/service_giver/widgets/buttom_booking_bar.dart';
 import 'package:kulfix/features/service_giver/widgets/giver_header.dart';
 import 'package:kulfix/features/service_giver/widgets/review_cards.dart';
 
@@ -16,8 +17,7 @@ class ProviderDetailsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final state =
-        ref.watch(providerDetailsProvider(providerId));
+    final state = ref.watch(providerDetailsProvider(providerId));
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,15 +37,12 @@ class ProviderDetailsScreen extends ConsumerWidget {
           final reviews = provider['reviews'] ?? [];
 
           return CustomScrollView(
-
             slivers: [
 
-              /// HEADER (blue gradient section)
               SliverToBoxAdapter(
                 child: ProviderHeader(provider: provider),
               ),
 
-              /// REVIEWS TITLE
               const SliverPadding(
                 padding: EdgeInsets.fromLTRB(16, 20, 16, 10),
                 sliver: SliverToBoxAdapter(
@@ -60,7 +57,6 @@ class ProviderDetailsScreen extends ConsumerWidget {
                 ),
               ),
 
-              /// REVIEWS LIST
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 sliver: SliverList(
@@ -80,10 +76,36 @@ class ProviderDetailsScreen extends ConsumerWidget {
                     childCount: reviews.length,
                   ),
                 ),
-              )
+              ),
+
+              const SliverToBoxAdapter(
+                child: SizedBox(height: 120),
+              ),
             ],
           );
         },
+      ),
+
+      bottomNavigationBar: state.maybeWhen(
+
+        data: (provider) {
+
+          final profList = provider['provider_professions'];
+
+          String price = "0";
+
+          if (profList != null && profList.isNotEmpty) {
+            price = profList[0]['price'].toString();
+          }
+
+          return BookingBar(
+            price: price,
+            providerName: provider['full_name'],
+            onBook: () {},
+          );
+        },
+
+        orElse: () => const SizedBox(),
       ),
     );
   }

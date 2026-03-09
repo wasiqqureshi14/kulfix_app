@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kulfix/features/home/providers/top_rated_provider.dart';
 import 'package:kulfix/features/home/widgets/service_giver/service_provider_card.dart';
+import 'package:kulfix/features/service_giver/screen/service_giver_detail_screen.dart';
 
 class TopRatedSection extends ConsumerWidget {
   const TopRatedSection({super.key});
@@ -67,7 +68,16 @@ class TopRatedSection extends ConsumerWidget {
 
                 return ProviderCard(
                   provider: p,
-                  onTap: () {},
+                  onTap: () {
+                     Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProviderDetailsScreen(
+          providerId: p['id'],
+        ),
+      ),
+    );
+                  },
                 );
               },
             ),

@@ -10,18 +10,27 @@ class ProvidersRepository {
 
   final response = await supabase
     .from('service_providers')
-    .select('''
-      id,
-      full_name,
-      rating,
-      total_reviews,
-      provider_professions(
-        price,
-        professions(
-          name
-        )
-      )
-    ''')
+   .select('''
+id,
+service_id,
+company_id,
+full_name,
+profile_image,
+rating,
+total_reviews,
+companies(
+  name
+),
+services(
+  name
+),
+provider_professions(
+  price,
+  professions(
+    name
+  )
+)
+''')
     .order('rating', ascending: false)
     .range(offset, offset + limit - 1);
 

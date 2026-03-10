@@ -30,7 +30,7 @@ Widget build(BuildContext context, WidgetRef ref) {
         ),
       );
 
-      // Reset state after navigation
+   
       ref.read(emailLoginProvider.notifier) .state = const EmailLoginState();
     }
   });

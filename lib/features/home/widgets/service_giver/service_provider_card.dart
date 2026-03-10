@@ -14,14 +14,16 @@ class ProviderCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+ 
+final professionList = provider['provider_professions'] as List?;
 
-    final professionList = provider['provider_professions'];
+final company = provider['companies']?['name'];
 
 String profession = 'No profession';
 String price = 'N/A';
 
 if (professionList != null && professionList.isNotEmpty) {
-  final profData = professionList[0];
+  final profData = professionList.first;
 
   final prof = profData['professions'];
 
@@ -64,10 +66,21 @@ if (professionList != null && professionList.isNotEmpty) {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold)),
 
+                        if (company != null)
+  Text(
+    company,
+    style: const TextStyle(
+      fontSize: 12,
+      color: Colors.blueGrey,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
+
+
                  Text(
-  profession,
-  style: const TextStyle(color: Colors.grey),
-),
+                    profession,
+                    style: const TextStyle(color: Colors.grey),
+                  ),
 
                   const SizedBox(height: 10),
 

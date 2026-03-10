@@ -56,12 +56,12 @@ class BookingSummaryScreen extends ConsumerWidget {
             ),
           ),
 
-          Text(
-            booking.serviceName,
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
+        Text(
+  booking.professionName,
+  style: const TextStyle(
+    color: Colors.grey,
+  ),
+),
         ],
       )
     ],

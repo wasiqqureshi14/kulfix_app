@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/booking/providers/booking_provider.dart';
 
-class ProviderCardLarge extends StatelessWidget {
+class ProviderCardLarge extends ConsumerWidget {
   final Map provider;
   final VoidCallback onTap;
 
   const ProviderCardLarge({super.key, required this.provider,  required this.onTap,});
 
   @override
-  Widget build(BuildContext context) {
+ Widget build(BuildContext context, WidgetRef ref)  {
 
   final professionList = provider['provider_professions'];
 
@@ -87,11 +89,7 @@ if (professionList != null && professionList.isNotEmpty) {
       
                       const SizedBox(height: 4),
       
-                //  Text(
-                      //    provider['profession'],
-                    //      style: const TextStyle(color: Colors.grey),
-                  //      ),
-                  
+                
       Text(
         profession,
         style: const TextStyle(color: Colors.grey),
@@ -132,6 +130,10 @@ if (professionList != null && professionList.isNotEmpty) {
         width: 60,
         child: ElevatedButton(
       onPressed: () {
+         ref.read(bookingProvider.notifier).startBooking(
+    context,
+    provider,
+  );
       
       },
       style: ElevatedButton.styleFrom(

@@ -12,6 +12,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
             providerName: "",
             serviceId: "",
             serviceName: "",
+            professionName: "",
             rate: 0,
             bookingType: "book_now",
             date: DateTime.now(),
@@ -23,25 +24,37 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   void startBooking(BuildContext context, Map provider) {
 
-    final profession = provider['provider_professions'][0];
+  final professionList = provider['provider_professions'];
 
-    final rate = double.parse(profession['price'].toString());
-  
+  double rate = 0;
+  String professionName = "";
+
+  if (professionList != null && professionList.isNotEmpty) {
+    final profession = professionList[0];
+
+    rate = double.tryParse(profession['price'].toString()) ?? 0;
+
+    professionName = profession['professions']?['name'] ?? "";
+  }
+
+  final serviceName = provider['services']?['name'] ?? "";
 
   state = state.copyWith(
-  providerId: provider['id'],
-  providerName: provider['full_name'],
-  serviceId: provider['service_id'],
-  serviceName: profession['professions']['name'],
-  rate: rate,
-);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const BookingScreen(),
-      ),
-    );
-  }
+    providerId: provider['id'] ?? "",
+    providerName: provider['full_name'] ?? "",
+    serviceId: provider['service_id'] ?? "",
+    serviceName: serviceName,
+    professionName: professionName,
+    rate: rate,
+  );
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => const BookingScreen(),
+    ),
+  );
+}
 
   void changeType(String type) {
     state = state.copyWith(bookingType: type);

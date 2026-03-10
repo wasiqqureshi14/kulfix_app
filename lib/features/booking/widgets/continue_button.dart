@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/providers/booking_provider.dart';
 import 'package:kulfix/features/booking/screens/booking_summary_screen.dart';
 
 class ContinueButton extends ConsumerWidget {
@@ -10,7 +9,7 @@ class ContinueButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final booking = ref.watch(bookingProvider);
+  
 
     return SizedBox(
       width: double.infinity,

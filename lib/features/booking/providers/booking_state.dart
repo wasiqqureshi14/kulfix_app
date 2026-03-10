@@ -6,8 +6,8 @@ class BookingState {
   final String providerName;
   final String serviceId;
   final String serviceName;
+  final String professionName;
   final double rate;
-
   final String bookingType;
   final DateTime date;
   final TimeOfDay time;
@@ -19,6 +19,7 @@ class BookingState {
     required this.providerName,
     required this.serviceId,
     required this.serviceName,
+    required this.professionName,
     required this.rate,
     required this.bookingType,
     required this.date,
@@ -32,6 +33,7 @@ class BookingState {
     String? providerName,
     String? serviceId,
     String? serviceName,
+    String? professionName,
     double? rate,
     String? bookingType,
     DateTime? date,
@@ -45,6 +47,7 @@ class BookingState {
       providerName: providerName ?? this.providerName,
       serviceId: serviceId ?? this.serviceId,
       serviceName: serviceName ?? this.serviceName,
+      professionName: professionName ?? this.professionName,
       rate: rate ?? this.rate,
       bookingType: bookingType ?? this.bookingType,
       date: date ?? this.date,

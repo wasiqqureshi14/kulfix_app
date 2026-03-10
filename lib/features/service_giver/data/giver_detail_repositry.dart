@@ -7,21 +7,22 @@ class ProviderDetailsRepository {
     final response = await supabase
         .from('service_providers')
        .select('''
-          id,
-          service_id,
-          full_name,
-          rating,
-          total_reviews,
-          profile_image,
-          provider_professions(
-          price,
-          profession_id,
-          professions(
-          id,
-          name
-          )
-          )
-          ''')
+id,
+service_id,
+full_name,
+rating,
+total_reviews,
+profile_image,
+services(
+  name
+),
+provider_professions(
+  price,
+  professions(
+    name
+  )
+)
+''')
         .eq('id', providerId)
         .single();
 

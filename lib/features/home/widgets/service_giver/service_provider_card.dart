@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/booking/providers/booking_provider.dart';
 
-class ProviderCard extends StatelessWidget {
+class ProviderCard extends ConsumerWidget {
   final Map provider;
   final VoidCallback onTap;
 
@@ -11,7 +13,7 @@ class ProviderCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
 
     final professionList = provider['provider_professions'];
 
@@ -93,7 +95,12 @@ Text(
                   SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                  ref.read(bookingProvider.notifier).startBooking(
+      context,
+      provider
+  );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(vertical: 14),

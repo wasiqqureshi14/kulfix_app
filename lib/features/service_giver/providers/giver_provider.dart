@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:kulfix/features/service_giver/data/giver_detail_repositry.dart';
@@ -32,6 +33,8 @@ class ProviderDetailsNotifier
 
     }
   }
+
+  void startBooking(BuildContext context) {}
 }
 
 final providerDetailsProvider =

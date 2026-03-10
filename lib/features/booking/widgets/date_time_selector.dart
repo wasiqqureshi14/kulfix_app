@@ -1,0 +1,128 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/booking_provider.dart';
+
+class DateTimeSelector extends ConsumerWidget {
+
+  final DateTime date;
+  final TimeOfDay time;
+
+  const DateTimeSelector({
+    super.key,
+    required this.date,
+    required this.time,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    final notifier = ref.read(bookingProvider.notifier);
+
+    return Container(
+       padding: const EdgeInsets.all(18),
+
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.05),
+            blurRadius: 10,
+            offset: const Offset(0,0),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+      
+          const Text(
+            "Date & Time",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+                 letterSpacing: 1,
+            ),
+          ),
+      
+          const SizedBox(height: 12),
+      
+          Row(
+            children: [
+      
+              /// DATE SELECTOR
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+      
+                    final pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: date,
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime(2030),
+                    );
+      
+                    if (pickedDate != null) {
+                      notifier.changeDate(pickedDate);
+                    }
+                  },
+      
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 16,
+                    ),
+      
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+      
+                    child: Text(
+                      "${date.day}-${date.month}-${date.year}",
+                    ),
+                  ),
+                ),
+              ),
+      
+              const SizedBox(width: 12),
+      
+              /// TIME SELECTOR
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+      
+                    final pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: time,
+                    );
+      
+                    if (pickedTime != null) {
+                      notifier.changeTime(pickedTime);
+                    }
+                  },
+      
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 16,
+                    ),
+      
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+      
+                    child: Text(
+                      time.format(context),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}

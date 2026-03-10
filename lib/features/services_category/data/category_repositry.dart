@@ -10,15 +10,22 @@ class CategoryRepository {
 
     final baseQuery = supabase
         .from('service_providers')
-        .select('''
-        *,
-        provider_professions(
-          price,
-          professions(
+      .select('''
+            id,
+            full_name,
+            profile_image,
+            rating,
+            total_reviews,
+            service_id,
+            provider_professions(
+            price,
+            profession_id,
+            professions(
+            id,
             name
-          )
-        )
-        ''')
+            )
+            )
+            ''')
         .eq('service_id', serviceId);
 
     final response = switch (filter) {

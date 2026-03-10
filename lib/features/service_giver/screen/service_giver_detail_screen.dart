@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/booking/providers/booking_provider.dart';
 import 'package:kulfix/features/service_giver/providers/giver_provider.dart';
 import 'package:kulfix/features/service_giver/widgets/buttom_booking_bar.dart';
 import 'package:kulfix/features/service_giver/widgets/giver_header.dart';
@@ -101,7 +102,11 @@ class ProviderDetailsScreen extends ConsumerWidget {
           return BookingBar(
             price: price,
             providerName: provider['full_name'],
-            onBook: () {},
+            onBook: () {
+            
+  ref.read(bookingProvider.notifier).startBooking(context, provider);
+
+            },
           );
         },
 

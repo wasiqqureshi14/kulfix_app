@@ -21,6 +21,33 @@ class BookingNotifier extends StateNotifier<BookingState> {
             address: "",
           ),
         );
+        void setProvider(Map provider) {
+
+  final professionList = provider['provider_professions'];
+
+  double rate = 0;
+  String professionName = "";
+
+  if (professionList != null && professionList.isNotEmpty) {
+
+    final profession = professionList[0];
+
+    rate = double.tryParse(profession['price'].toString()) ?? 0;
+
+    professionName = profession['professions']?['name'] ?? "";
+  }
+
+  final serviceName = provider['services']?['name'] ?? "";
+
+  state = state.copyWith(
+    providerId: provider['id'] ?? "",
+    providerName: provider['full_name'] ?? "",
+    serviceId: provider['service_id'] ?? "",
+    serviceName: serviceName,
+    professionName: professionName,
+    rate: rate,
+  );
+}
 
   void startBooking(BuildContext context, Map provider) {
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/providers/booking_provider.dart';
+import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
 
 class BookingTypeSelector extends ConsumerWidget {
 
@@ -11,7 +11,7 @@ class BookingTypeSelector extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final notifier = ref.read(bookingProvider.notifier);
+   final notifier = ref.read(bookingFilterProvider.notifier);
 
     return Container(
         padding: const EdgeInsets.all(18),

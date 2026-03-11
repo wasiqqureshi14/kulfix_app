@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/providers/booking_provider.dart';
 
-class ProviderCardLarge extends ConsumerWidget {
+class ProviderCardLarge extends StatelessWidget {
   final Map provider;
   final VoidCallback onTap;
 
   const ProviderCardLarge({super.key, required this.provider,  required this.onTap,});
 
   @override
- Widget build(BuildContext context, WidgetRef ref)  {
+Widget build(BuildContext context) {
 
   final professionList = provider['provider_professions'];
 
@@ -60,40 +58,18 @@ if (professionList != null && professionList.isNotEmpty) {
                         CrossAxisAlignment.start,
                     children: [
       
-                      Row(
-                        children: [
+                      
                           Text(provider['full_name'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16)),
       
-                                  const SizedBox(width: 10),
-      
-                                   Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(57, 1, 228, 172),
-                    borderRadius:
-                        BorderRadius.circular(8),
-                  ),
-                  child: const Text("STAGE 1",
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w700
-                  ),
-                  ),
-                )
-                        ],
-                      ),
-      
                       const SizedBox(height: 4),
-      
-                
-      Text(
-        profession,
-        style: const TextStyle(color: Colors.grey),
-      ),
+            
+                          Text(
+                            profession,
+                            style: const TextStyle(color: Colors.grey),
+                          ),
       
                       const SizedBox(height: 6),
       
@@ -107,13 +83,13 @@ if (professionList != null && professionList.isNotEmpty) {
                               
                                const SizedBox(width: 14),
       
-                     Text(
-        "$price QAR /hr",
-        style: const TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: 13,
-        ),
-      ),
+                          Text(
+                            "$price QAR /hr",
+                            style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                            ),
+                          ),
                             ],
                           ),
                         
@@ -129,13 +105,7 @@ if (professionList != null && professionList.isNotEmpty) {
         height: 60,
         width: 60,
         child: ElevatedButton(
-      onPressed: () {
-         ref.read(bookingProvider.notifier).startBooking(
-    context,
-    provider,
-  );
-      
-      },
+      onPressed: onTap,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black,
         padding: EdgeInsets.zero,

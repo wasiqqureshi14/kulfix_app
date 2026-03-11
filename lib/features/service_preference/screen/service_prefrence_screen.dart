@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/services_category/screens/service_category_screen.dart';
+import 'package:kulfix/features/booking_first/screen/booking_screen.dart';
 import '../widgets/preference_card.dart';
 
 class CleaningPreferenceScreen extends ConsumerWidget {
@@ -81,14 +81,14 @@ class CleaningPreferenceScreen extends ConsumerWidget {
                 isButtonDisabled: false,
                 onPressed: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => CategoryProvidersScreen(
-                        serviceId: serviceId,
-                        serviceName: serviceName,
-                      ),
-                    ),
-                  );
+  context,
+  MaterialPageRoute(
+    builder: (_) => BookingScreens(
+      serviceId: serviceId,
+      serviceName: serviceName,
+    ),
+  ),
+);
                 },
               ),
 

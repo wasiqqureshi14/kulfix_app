@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
 import 'package:kulfix/features/services_category/data/category_repositry.dart';
 import 'package:kulfix/features/services_category/models/service_giver_filter.dart';
 
@@ -47,10 +48,23 @@ class CategoryNotifier
 
     final repo = ref.read(categoryRepoProvider);
 
-    final data = await repo.fetchProviders(
-      serviceId: serviceId,
-      filter: state.selectedFilter,
-    );
+    final booking = ref.read(bookingFilterProvider);
+
+final start =
+"${booking.time.hour.toString().padLeft(2,'0')}:${booking.time.minute.toString().padLeft(2,'0')}";
+
+final end =
+"${booking.time.hour + booking.duration}:${booking.time.minute.toString().padLeft(2,'0')}";
+
+final data = await repo.fetchProviders(
+  serviceId: serviceId,
+  filter: state.selectedFilter,
+  date: booking.date,
+  startTime: start,
+  endTime: end,
+);
+
+print("FILTERED PROVIDERS: $data");
 
     state = state.copyWith(
       providers: data,

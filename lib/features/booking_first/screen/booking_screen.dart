@@ -1,0 +1,96 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/booking_first/widgets/address_selector.dart';
+import 'package:kulfix/features/booking_first/widgets/booking_type_selector.dart';
+import 'package:kulfix/features/booking_first/widgets/date_time_selector.dart';
+import 'package:kulfix/features/booking_first/widgets/duration_selector.dart';
+import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
+import 'package:kulfix/features/services_category/screens/service_category_screen.dart';
+
+class BookingScreens extends ConsumerWidget {
+
+  final String serviceId;
+  final String serviceName;
+
+  const BookingScreens({
+    super.key,
+    required this.serviceId,
+    required this.serviceName,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+   Future.microtask(() {
+  ref.read(bookingFilterProvider.notifier).setService(serviceId);
+});
+
+   final booking = ref.watch(bookingFilterProvider);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: const Text("Choose Booking Time")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+          BookingTypeSelector(type: booking.bookingType),
+
+          const SizedBox(height: 20),
+
+            DateTimeSelector(
+              date: booking.date,
+              time: booking.time,
+            ),
+
+            const SizedBox(height: 20),
+
+            DurationSelector(duration: booking.duration),
+
+            const SizedBox(height: 20),
+
+            AddressSelector(address: booking.address),
+
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+              height: 55,
+              child: ElevatedButton(
+
+                style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0,
+        ),
+                onPressed: () {
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                     builder: (_) => CategoryProvidersScreen(
+                          serviceId: serviceId,
+                          serviceName: serviceName,
+                        ),
+                    ),
+                  );
+
+                },
+                child: const Text("Find Service Providers",
+                style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

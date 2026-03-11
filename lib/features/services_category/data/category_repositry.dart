@@ -4,46 +4,54 @@ import 'package:kulfix/features/services_category/models/service_giver_filter.da
 class CategoryRepository {
 
   Future<List<Map<String, dynamic>>> fetchProviders({
-    required String serviceId,
-    required ProviderFilter filter,
-  }) async {
+  required String serviceId,
+  required ProviderFilter filter,
+  required DateTime date,
+  required String startTime,
+  required String endTime,
 
-    final baseQuery = supabase
-        .from('service_providers')
-      .select('''
-id,
-service_id,
-full_name,
-profile_image,
-rating,
-total_reviews,
-services(
-  name
-),
-provider_professions(
-  price,
-  professions(
-    name
-  )
-)
-''')
-        .eq('service_id', serviceId);
+  
+}) async {
+  print("SERVICE ID: $serviceId");
+print("DATE: $date");
+print("START TIME: $startTime");
+print("END TIME: $endTime");
 
-    final response = switch (filter) {
+  final result = await supabase.rpc(
+    'get_available_providers',
+    params: {
+      'p_service_id': serviceId,
+      'p_date': date.toIso8601String().split('T').first,
+      'p_start_time': startTime,
+      'p_end_time': endTime,
+    },
+  );
 
-      ProviderFilter.highestRated =>
-        await baseQuery.order('rating', ascending: false),
+  List<Map<String,dynamic>> providers =
+      List<Map<String,dynamic>>.from(result);
 
-      ProviderFilter.lowestRated =>
-        await baseQuery.order('rating', ascending: true),
+  switch(filter) {
 
-      ProviderFilter.mostReviewed =>
-        await baseQuery.order('total_reviews', ascending: false),
+    case ProviderFilter.highestRated:
+      providers.sort((a,b) =>
+        (b['rating'] ?? 0).compareTo(a['rating'] ?? 0));
+      break;
 
-      ProviderFilter.all =>
-        await baseQuery.order('rating', ascending: false),
-    };
+    case ProviderFilter.lowestRated:
+      providers.sort((a,b) =>
+        (a['rating'] ?? 0).compareTo(b['rating'] ?? 0));
+      break;
 
-    return List<Map<String, dynamic>>.from(response);
+    case ProviderFilter.mostReviewed:
+      providers.sort((a,b) =>
+        (b['total_reviews'] ?? 0)
+        .compareTo(a['total_reviews'] ?? 0));
+      break;
+
+    case ProviderFilter.all:
+      break;
   }
+
+  return providers;
+}
 }

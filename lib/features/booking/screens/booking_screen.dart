@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/widgets/date_time_selector.dart';
+import 'package:kulfix/features/booking_first/widgets/date_time_selector.dart';
 import '../providers/booking_provider.dart';
-import '../widgets/booking_type_selector.dart';
-import '../widgets/duration_selector.dart';
-import '../widgets/address_selector.dart';
-import '../widgets/continue_button.dart';
+import '../../booking_first/widgets/booking_type_selector.dart';
+import '../../booking_first/widgets/duration_selector.dart';
+import '../../booking_first/widgets/address_selector.dart';
+import '../../booking_first/widgets/continue_button.dart';
 
 class BookingScreen extends ConsumerWidget {
 

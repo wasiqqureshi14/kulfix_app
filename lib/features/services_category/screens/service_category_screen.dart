@@ -64,18 +64,18 @@ Widget build(BuildContext context, WidgetRef ref) {
                         state.providers[i];
 
                     return ProviderCardLarge(
-  provider: provider,
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ProviderDetailsScreen(
-          providerId: provider['id'],
-        ),
-      ),
-    );
-  },
-);
+                          provider: provider,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ProviderDetailsScreen(
+                                  providerId: provider['id'],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                   },
                 ),
         ),

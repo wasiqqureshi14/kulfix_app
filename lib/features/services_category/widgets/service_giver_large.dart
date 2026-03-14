@@ -9,24 +9,8 @@ class ProviderCardLarge extends StatelessWidget {
   @override
 Widget build(BuildContext context) {
 
-  final professionList = provider['provider_professions'];
-
-String profession = 'No profession';
-String price = 'N/A';
-
-if (professionList != null && professionList.isNotEmpty) {
-  final profData = professionList[0];
-
-  final prof = profData['professions'];
-
-  if (prof != null && prof['name'] != null) {
-    profession = prof['name'];
-  }
-
-  if (profData['price'] != null) {
-    price = profData['price'].toString();
-  }
-}
+final price = provider['price']?.toString() ?? '0';
+final company = provider['company_name'];
 
 
     return InkWell(
@@ -66,11 +50,15 @@ if (professionList != null && professionList.isNotEmpty) {
       
                       const SizedBox(height: 4),
             
-                          Text(
-                            profession,
-                            style: const TextStyle(color: Colors.grey),
-                          ),
-      
+                        if (company != null)
+  Text(
+    company,
+    style: const TextStyle(
+      fontSize: 12,
+      color: Colors.blueGrey,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
                       const SizedBox(height: 6),
       
                           Row(

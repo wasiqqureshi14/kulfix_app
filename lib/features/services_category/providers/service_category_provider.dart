@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
+import 'package:kulfix/features/booking_first/providers/booking_filter_state.dart';
 import 'package:kulfix/features/services_category/data/category_repositry.dart';
 import 'package:kulfix/features/services_category/models/service_giver_filter.dart';
 
@@ -35,9 +36,22 @@ class CategoryNotifier
     extends StateNotifier<CategoryState> {
 
   CategoryNotifier(this.ref, this.serviceId)
-      : super(const CategoryState()) {
-    loadProviders();
-  }
+    : super(const CategoryState()) {
+  _init();
+}
+
+void _init() {
+  ref.listen<BookingFilterState>(
+    bookingFilterProvider,
+    (_, __) {
+      if (mounted) {
+        loadProviders();
+      }
+    },
+  );
+
+  loadProviders();
+}
 
   final Ref ref;
   final String serviceId;
@@ -48,13 +62,15 @@ class CategoryNotifier
 
     final repo = ref.read(categoryRepoProvider);
 
-    final booking = ref.read(bookingFilterProvider);
+    final booking = ref.watch(bookingFilterProvider);
+
+
 
 final start =
-"${booking.time.hour.toString().padLeft(2,'0')}:${booking.time.minute.toString().padLeft(2,'0')}";
+"${booking.startTime.hour.toString().padLeft(2,'0')}:${booking.startTime.minute.toString().padLeft(2,'0')}";
 
 final end =
-"${booking.time.hour + booking.duration}:${booking.time.minute.toString().padLeft(2,'0')}";
+"${booking.endTime.hour.toString().padLeft(2,'0')}:${booking.endTime.minute.toString().padLeft(2,'0')}";
 
 final data = await repo.fetchProviders(
   serviceId: serviceId,
@@ -64,12 +80,12 @@ final data = await repo.fetchProviders(
   endTime: end,
 );
 
-print("FILTERED PROVIDERS: $data");
+   if (!mounted) return;
 
-    state = state.copyWith(
-      providers: data,
-      isLoading: false,
-    );
+state = state.copyWith(
+  providers: data,
+  isLoading: false,
+);
   }
 
   void changeFilter(ProviderFilter filter) {

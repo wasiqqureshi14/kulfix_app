@@ -4,16 +4,16 @@ class BookingFilterState {
 
   final String serviceId;
   final DateTime date;
-  final TimeOfDay time;
-  final int duration;
+  final TimeOfDay startTime;
+final TimeOfDay endTime;
   final String address;
   final String bookingType;
 
   BookingFilterState({
     required this.serviceId,
     required this.date,
-    required this.time,
-    required this.duration,
+   required this.startTime,
+    required this.endTime,
     required this.address,
     required this.bookingType,
   });
@@ -21,8 +21,8 @@ class BookingFilterState {
   BookingFilterState copyWith({
     String? serviceId,
     DateTime? date,
-    TimeOfDay? time,
-    int? duration,
+      TimeOfDay? startTime,
+    TimeOfDay? endTime,
     String? address,
      String? bookingType,
   }) {
@@ -30,8 +30,8 @@ class BookingFilterState {
     return BookingFilterState(
       serviceId: serviceId ?? this.serviceId,
       date: date ?? this.date,
-      time: time ?? this.time,
-      duration: duration ?? this.duration,
+       startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
       address: address ?? this.address,
       bookingType: bookingType ?? this.bookingType,
     );

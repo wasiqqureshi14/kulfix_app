@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kulfix/features/booking_first/widgets/date_time_selector.dart';
 import '../providers/booking_provider.dart';
@@ -41,7 +41,7 @@ class BookingScreen extends ConsumerWidget {
 
             const SizedBox(height: 20),
 
-            DurationSelector(duration: booking.duration),
+           // DurationSelector(duration: booking.duration),
 
             const SizedBox(height: 20),
 
@@ -55,4 +55,4 @@ class BookingScreen extends ConsumerWidget {
       ),
     );
   }
-}
+}*/

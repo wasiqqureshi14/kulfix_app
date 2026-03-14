@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:kulfix/features/booking/screens/booking_screen.dart';
 import 'booking_state.dart';
@@ -112,4 +112,4 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
 final bookingProvider =
     StateNotifierProvider<BookingNotifier, BookingState>(
-        (ref) => BookingNotifier());
+        (ref) => BookingNotifier()); */

@@ -19,8 +19,11 @@ class TopRatedNotifier
   final int _limit = 5;
   bool _hasMore = true;
 
-  Future<void> loadInitial() async {
-    try {
+Future<void> loadInitial() async {
+
+  if (state is AsyncData) return;
+
+  try {
       final repo = ref.read(providersRepoProvider);
 
       final data =
@@ -60,5 +63,8 @@ class TopRatedNotifier
 final topRatedProvider =
     StateNotifierProvider<TopRatedNotifier,
         AsyncValue<List<Map<String, dynamic>>>>(
-  (ref) => TopRatedNotifier(ref),
+  (ref) {
+    ref.keepAlive();
+    return TopRatedNotifier(ref);
+  },
 );

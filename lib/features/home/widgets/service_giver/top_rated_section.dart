@@ -11,8 +11,6 @@ class TopRatedSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 
     final providersAsync = ref.watch(topRatedProvider);
-
-    /// directly get data
     final providers = providersAsync.value ?? [];
 
     return Padding(

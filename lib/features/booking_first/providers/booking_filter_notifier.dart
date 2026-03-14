@@ -9,8 +9,8 @@ class BookingFilterNotifier extends StateNotifier<BookingFilterState> {
          BookingFilterState(
   serviceId: "",
   date: DateTime.now(),
-  time: const TimeOfDay(hour: 14, minute: 0),
-  duration: 4,
+  startTime: const TimeOfDay(hour: 14, minute: 0),
+endTime: const TimeOfDay(hour: 18, minute: 0),
   bookingType: "book_now",
   address: "",
 )
@@ -20,20 +20,20 @@ class BookingFilterNotifier extends StateNotifier<BookingFilterState> {
     state = state.copyWith(date: date);
   }
 
-  void changeTime(TimeOfDay time) {
-    state = state.copyWith(time: time);
+ void changeStartTime(TimeOfDay time) {
+  state = state.copyWith(startTime: time);
+}
+
+void changeEndTime(TimeOfDay time) {
+  final startMinutes = state.startTime.hour * 60 + state.startTime.minute;
+  final endMinutes = time.hour * 60 + time.minute;
+
+  if (endMinutes - startMinutes < 240) {
+    return;
   }
 
-  void increaseDuration() {
-    state = state.copyWith(duration: state.duration + 1);
-  }
-
-  void decreaseDuration() {
-
-    if (state.duration > 1) {
-      state = state.copyWith(duration: state.duration - 1);
-    }
-  }
+  state = state.copyWith(endTime: time);
+}
 
   void setAddress(String address) {
     state = state.copyWith(address: address);
@@ -50,6 +50,7 @@ void changeType(String type) {
     state = state.copyWith(
       bookingType: type,
       date: DateTime.now(),
+      startTime: TimeOfDay.now(),
     );
 
   }else{
@@ -66,8 +67,8 @@ void changeType(String type) {
     state = BookingFilterState(
        serviceId: "",
       date: DateTime.now(),
-      time: const TimeOfDay(hour: 14, minute: 0),
-      duration: 4,
+      startTime: const TimeOfDay(hour: 14, minute: 0),
+      endTime: const TimeOfDay(hour: 18, minute: 0),
       address: "",
        bookingType: "book_now",
     );

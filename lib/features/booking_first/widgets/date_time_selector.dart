@@ -5,12 +5,14 @@ import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.
 class DateTimeSelector extends ConsumerWidget {
 
   final DateTime date;
-  final TimeOfDay time;
+  final TimeOfDay startTime;
+final TimeOfDay endTime;
 
   const DateTimeSelector({
     super.key,
     required this.date,
-    required this.time,
+    required this.startTime,
+  required this.endTime,
   });
 
   @override
@@ -50,22 +52,27 @@ class DateTimeSelector extends ConsumerWidget {
           Row(
             children: [
       
-              /// DATE SELECTOR
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
-      
-                    final pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: date,
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(2030),
-                    );
-      
-                    if (pickedDate != null) {
-                      notifier.changeDate(pickedDate);
-                    }
-                  },
+
+  final booking = ref.read(bookingFilterProvider);
+
+  if (booking.bookingType == "book_now") {
+    return;
+  }
+
+  final pickedDate = await showDatePicker(
+    context: context,
+    initialDate: booking.date,
+    firstDate: DateTime.now(),
+    lastDate: DateTime(2030),
+  );
+
+  if (pickedDate != null) {
+    notifier.changeDate(pickedDate);
+  }
+},
       
                   child: Container(
                     padding: const EdgeInsets.symmetric(
@@ -87,38 +94,84 @@ class DateTimeSelector extends ConsumerWidget {
       
               const SizedBox(width: 12),
       
-              /// TIME SELECTOR
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-      
-                    final pickedTime = await showTimePicker(
-                      context: context,
-                      initialTime: time,
-                    );
-      
-                    if (pickedTime != null) {
-                      notifier.changeTime(pickedTime);
-                    }
-                  },
-      
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 16,
-                    ),
-      
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-      
-                    child: Text(
-                      time.format(context),
-                    ),
-                  ),
-                ),
-              ),
+             Expanded(
+  child: GestureDetector(
+    onTap: () async {
+
+     final booking = ref.read(bookingFilterProvider);
+
+final pickedTime = await showTimePicker(
+  context: context,
+  initialTime: startTime,
+);
+
+if (pickedTime != null) {
+
+  if (booking.bookingType == "book_now") {
+
+    final now = TimeOfDay.now();
+
+    if (pickedTime.hour < now.hour ||
+        (pickedTime.hour == now.hour && pickedTime.minute < now.minute)) {
+      return;
+    }
+
+  }
+
+  notifier.changeStartTime(pickedTime);
+}
+
+    },
+
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 16,
+      ),
+
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+
+      child: Text(
+        "Start: ${startTime.format(context)}",
+      ),
+    ),
+  ),
+),
+Expanded(
+  child: GestureDetector(
+    onTap: () async {
+
+      final pickedTime = await showTimePicker(
+        context: context,
+        initialTime: endTime,
+      );
+
+      if (pickedTime != null) {
+        notifier.changeEndTime(pickedTime);
+      }
+
+    },
+
+    child: Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 14,
+        vertical: 16,
+      ),
+
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+
+      child: Text(
+        "End: ${endTime.format(context)}",
+      ),
+    ),
+  ),
+),
             ],
           )
         ],

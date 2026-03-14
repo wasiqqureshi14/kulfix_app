@@ -104,7 +104,7 @@ class ProviderDetailsScreen extends ConsumerWidget {
             providerName: provider['full_name'],
             onBook: () {
             
-  ref.read(bookingProvider.notifier).startBooking(context, provider);
+ // ref.read(bookingProvider.notifier).startBooking(context, provider);
 
             },
           );

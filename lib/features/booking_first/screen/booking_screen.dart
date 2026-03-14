@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kulfix/features/booking_first/widgets/address_selector.dart';
 import 'package:kulfix/features/booking_first/widgets/booking_type_selector.dart';
 import 'package:kulfix/features/booking_first/widgets/date_time_selector.dart';
-import 'package:kulfix/features/booking_first/widgets/duration_selector.dart';
 import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
 import 'package:kulfix/features/services_category/screens/service_category_screen.dart';
 
@@ -21,7 +20,7 @@ class BookingScreens extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
-   Future.microtask(() {
+   WidgetsBinding.instance.addPostFrameCallback((_) {
   ref.read(bookingFilterProvider.notifier).setService(serviceId);
 });
 
@@ -42,12 +41,13 @@ class BookingScreens extends ConsumerWidget {
 
             DateTimeSelector(
               date: booking.date,
-              time: booking.time,
+               startTime: booking.startTime,
+               endTime: booking.endTime,
             ),
 
             const SizedBox(height: 20),
 
-            DurationSelector(duration: booking.duration),
+         //   DurationSelector(duration: booking.duration),
 
             const SizedBox(height: 20),
 

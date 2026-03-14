@@ -10,11 +10,11 @@ final filteredProvidersProvider = FutureProvider<List<Map<String,dynamic>>>((ref
 final booking = ref.watch(bookingFilterProvider);
   final repo = ref.watch(providerFilterRepositoryProvider);
 
-  final start =
-      "${booking.time.hour.toString().padLeft(2,'0')}:${booking.time.minute.toString().padLeft(2,'0')}";
+ final start =
+    "${booking.startTime.hour.toString().padLeft(2,'0')}:${booking.startTime.minute.toString().padLeft(2,'0')}";
 
-  final end =
-      "${booking.time.hour + booking.duration}:${booking.time.minute.toString().padLeft(2,'0')}";
+final end =
+    "${booking.endTime.hour.toString().padLeft(2,'0')}:${booking.endTime.minute.toString().padLeft(2,'0')}";
 
   return repo.getFilteredProviders(
     serviceId: booking.serviceId,

@@ -12,10 +12,7 @@ class CategoryRepository {
 
   
 }) async {
-  print("SERVICE ID: $serviceId");
-print("DATE: $date");
-print("START TIME: $startTime");
-print("END TIME: $endTime");
+  
 
   final result = await supabase.rpc(
     'get_available_providers',

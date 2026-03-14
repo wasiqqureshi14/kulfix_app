@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/providers/booking_provider.dart';
 
 class ProviderCard extends ConsumerWidget {
   final Map provider;
@@ -14,27 +13,8 @@ class ProviderCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- 
-final professionList = provider['provider_professions'] as List?;
-
 final company = provider['companies']?['name'];
-
-String profession = 'No profession';
-String price = 'N/A';
-
-if (professionList != null && professionList.isNotEmpty) {
-  final profData = professionList.first;
-
-  final prof = profData['professions'];
-
-  if (prof != null && prof['name'] != null) {
-    profession = prof['name'];
-  }
-
-  if (profData['price'] != null) {
-    price = profData['price'].toString();
-  }
-}
+final price = provider['price']?.toString() ?? '0';
 
     return GestureDetector(
       onTap: onTap,
@@ -67,20 +47,17 @@ if (professionList != null && professionList.isNotEmpty) {
                           fontWeight: FontWeight.bold)),
 
                         if (company != null)
-  Text(
-    company,
-    style: const TextStyle(
-      fontSize: 12,
-      color: Colors.blueGrey,
-      fontWeight: FontWeight.w600,
-    ),
-  ),
+                        Text(
+                          company,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
 
 
-                 Text(
-                    profession,
-                    style: const TextStyle(color: Colors.grey),
-                  ),
+                
 
                   const SizedBox(height: 10),
 
@@ -96,7 +73,7 @@ if (professionList != null && professionList.isNotEmpty) {
                   const SizedBox(height: 10),
                   
 Text(
-  "$price /hr QAR",
+  "$price QAR /hr",
   style: const TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w700,
@@ -109,10 +86,10 @@ Text(
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                  ref.read(bookingProvider.notifier).startBooking(
-      context,
-      provider
-  );
+              //    ref.read(bookingProvider.notifier).startBooking(
+    //  context,
+    //  provider
+  //);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,

@@ -15,6 +15,7 @@ class ProviderCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
 final company = provider['companies']?['name'];
 final price = provider['price']?.toString() ?? '0';
+final service = provider['services']?['name'] ?? '';
 
     return GestureDetector(
       onTap: onTap,
@@ -45,19 +46,16 @@ final price = provider['price']?.toString() ?? '0';
                   Text(provider['full_name'],
                       style: const TextStyle(
                           fontWeight: FontWeight.bold)),
-
-                        if (company != null)
-                        Text(
-                          company,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
+                          
+                        if (service.isNotEmpty || company.isNotEmpty)
+                          Text(
+                            "$service • $company",
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-
-
-                
 
                   const SizedBox(height: 10),
 
@@ -72,13 +70,13 @@ final price = provider['price']?.toString() ?? '0';
                   ),
                   const SizedBox(height: 10),
                   
-Text(
-  "$price QAR /hr",
-  style: const TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w700,
-  ),
-),
+                      Text(
+                        "$price QAR /hr",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
 
           const SizedBox(height: 14),
 

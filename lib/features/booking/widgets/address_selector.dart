@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
+import 'package:kulfix/features/booking/providers/booking_filter_notifier.dart';
 
 class AddressSelector extends ConsumerWidget {
 

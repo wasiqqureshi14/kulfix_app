@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
-import 'package:kulfix/features/booking_first/data/service_giver_filter_repositry.dart';
+import 'package:kulfix/features/booking/providers/booking_filter_notifier.dart';
+import 'package:kulfix/features/booking/data/service_giver_filter_repositry.dart';
 
 final providerFilterRepositoryProvider =
     Provider((ref) => ProviderFilterRepository());

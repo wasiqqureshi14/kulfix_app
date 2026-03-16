@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 
 class ProviderCardLarge extends StatelessWidget {
   final Map provider;
-  final VoidCallback onTap;
+  final VoidCallback onCardTap;
+final VoidCallback onBookTap;
 
-  const ProviderCardLarge({super.key, required this.provider,  required this.onTap,});
+  const ProviderCardLarge({super.key, 
+  required this.provider,  
+  required this.onCardTap,
+  required this.onBookTap,
+  });
 
   @override
 Widget build(BuildContext context) {
@@ -14,7 +19,7 @@ final company = provider['company_name'];
 
 
     return InkWell(
-       onTap: onTap,
+       onTap: onCardTap,
       child: Container(
         margin: const EdgeInsets.only(bottom: 14),
         padding: const EdgeInsets.all(16),
@@ -50,15 +55,15 @@ final company = provider['company_name'];
       
                       const SizedBox(height: 4),
             
-                        if (company != null)
-  Text(
-    company,
-    style: const TextStyle(
-      fontSize: 12,
-      color: Colors.blueGrey,
-      fontWeight: FontWeight.w600,
-    ),
-  ),
+                          if (company != null)
+                            Text(
+                              company,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                       const SizedBox(height: 6),
       
                           Row(
@@ -93,7 +98,7 @@ final company = provider['company_name'];
         height: 60,
         width: 60,
         child: ElevatedButton(
-      onPressed: onTap,
+      onPressed: onBookTap,
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black,
         padding: EdgeInsets.zero,

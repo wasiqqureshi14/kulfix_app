@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:kulfix/features/booking_first/providers/booking_filter_notifier.dart';
-import 'package:kulfix/features/booking_first/providers/booking_filter_state.dart';
+import 'package:kulfix/features/booking/providers/booking_filter_notifier.dart';
+import 'package:kulfix/features/booking/providers/booking_filter_state.dart';
 import 'package:kulfix/features/services_category/data/category_repositry.dart';
 import 'package:kulfix/features/services_category/models/service_giver_filter.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kulfix/features/booking_summary/screen/booking_summary_screen.dart';
 import 'package:kulfix/features/service_giver/screen/service_giver_detail_screen.dart';
 import 'package:kulfix/features/services_category/providers/service_category_provider.dart';
 import 'package:kulfix/features/services_category/widgets/filter_bar.dart';
@@ -64,18 +65,32 @@ Widget build(BuildContext context, WidgetRef ref) {
                         state.providers[i];
 
                     return ProviderCardLarge(
-                          provider: provider,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ProviderDetailsScreen(
-                                  providerId: provider['id'],
-                                ),
-                              ),
-                            );
-                          },
-                        );
+  provider: provider,
+
+  /// Card tap → provider details
+  onCardTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ProviderDetailsScreen(
+          providerId: provider['id'],
+        ),
+      ),
+    );
+  },
+
+  /// Book button → booking summary
+  onBookTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BookingSummaryScreen(
+          providerId: provider['id'],
+        ),
+      ),
+    );
+  },
+);
                   },
                 ),
         ),

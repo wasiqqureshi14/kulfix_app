@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking_first/screen/booking_screen.dart';
+import 'package:kulfix/features/booking/screen/booking_screen.dart';
 import '../widgets/preference_card.dart';
 
 class CleaningPreferenceScreen extends ConsumerWidget {

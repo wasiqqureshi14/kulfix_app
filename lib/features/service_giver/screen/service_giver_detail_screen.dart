@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kulfix/features/booking/providers/booking_provider.dart';
+import 'package:kulfix/features/booking_summary/screen/booking_summary_screen.dart';
 import 'package:kulfix/features/service_giver/providers/giver_provider.dart';
 import 'package:kulfix/features/service_giver/widgets/buttom_booking_bar.dart';
 import 'package:kulfix/features/service_giver/widgets/giver_header.dart';
@@ -45,7 +45,7 @@ class ProviderDetailsScreen extends ConsumerWidget {
               ),
 
               const SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 20, 16, 10),
+                padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
                 sliver: SliverToBoxAdapter(
                   child: Text(
                     "REVIEWS",
@@ -91,20 +91,21 @@ class ProviderDetailsScreen extends ConsumerWidget {
 
         data: (provider) {
 
-          final profList = provider['provider_professions'];
-
-          String price = "0";
-
-          if (profList != null && profList.isNotEmpty) {
-            price = profList[0]['price'].toString();
-          }
+         final price = provider['price']?.toString() ?? "0";
 
           return BookingBar(
             price: price,
             providerName: provider['full_name'],
             onBook: () {
             
- // ref.read(bookingProvider.notifier).startBooking(context, provider);
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) => BookingSummaryScreen(
+      providerId: providerId,
+    ),
+  ),
+);
 
             },
           );

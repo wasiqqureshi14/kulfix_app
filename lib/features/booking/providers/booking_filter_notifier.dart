@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:kulfix/features/booking_first/providers/booking_filter_state.dart';
+import 'package:kulfix/features/booking/providers/booking_filter_state.dart';
 
 class BookingFilterNotifier extends StateNotifier<BookingFilterState> {
 

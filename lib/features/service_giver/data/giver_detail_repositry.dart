@@ -4,39 +4,31 @@ class ProviderDetailsRepository {
 
   Future<Map<String, dynamic>> fetchProviderDetails(String providerId) async {
 
-    final response = await supabase
+    final provider = await supabase
         .from('service_providers')
-       .select('''
+        .select('''
 id,
 service_id,
 full_name,
 rating,
 total_reviews,
 profile_image,
-services(
-  name
-),
-provider_professions(
-  price,
-  professions(
-    name
-  )
-)
+price,
+services(name),
+companies(name)
 ''')
         .eq('id', providerId)
         .single();
 
-    return Map<String, dynamic>.from(response);
-  }
-
-  Future<List<Map<String, dynamic>>> fetchReviews(String providerId) async {
-
-    final response = await supabase
+    final reviews = await supabase
         .from('reviews')
         .select()
         .eq('provider_id', providerId)
         .order('created_at', ascending: false);
 
-    return List<Map<String, dynamic>>.from(response);
+    final data = Map<String, dynamic>.from(provider);
+    data['reviews'] = List<Map<String, dynamic>>.from(reviews);
+
+    return data;
   }
 }

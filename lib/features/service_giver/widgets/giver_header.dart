@@ -9,13 +9,8 @@ class ProviderHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final profList = provider['provider_professions'];
-
-    String profession = 'No profession';
-
-    if (profList != null && profList.isNotEmpty) {
-      profession = profList[0]['professions']['name'];
-    }
+    final serviceName = provider['services']?['name'] ?? 'Service';
+    final companyName = provider['companies']?['name'] ?? '';
 
     return Container(
       width: double.infinity,
@@ -44,16 +39,18 @@ class ProviderHeader extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          Text(
-            profession,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
+           if (serviceName.isNotEmpty || companyName.isNotEmpty)
+                          Text(
+                            "$serviceName • $companyName",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
 
-          const SizedBox(height: 24),
+
+          const SizedBox(height: 15),
 
           Row(
             mainAxisAlignment:
@@ -69,8 +66,6 @@ class ProviderHeader extends StatelessWidget {
                 provider['total_reviews'].toString(),
                 "Reviews",
               ),
-
-              
             ],
           )
         ],

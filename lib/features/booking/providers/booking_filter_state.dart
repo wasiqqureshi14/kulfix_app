@@ -8,6 +8,7 @@ class BookingFilterState {
 final TimeOfDay endTime;
   final String address;
   final String bookingType;
+  final String? errorMessage;
 
   BookingFilterState({
     required this.serviceId,
@@ -16,6 +17,7 @@ final TimeOfDay endTime;
     required this.endTime,
     required this.address,
     required this.bookingType,
+    this.errorMessage,
   });
 
   BookingFilterState copyWith({
@@ -25,6 +27,8 @@ final TimeOfDay endTime;
     TimeOfDay? endTime,
     String? address,
      String? bookingType,
+     String? errorMessage,
+     bool clearError = false,
   }) {
 
     return BookingFilterState(
@@ -34,6 +38,7 @@ final TimeOfDay endTime;
       endTime: endTime ?? this.endTime,
       address: address ?? this.address,
       bookingType: bookingType ?? this.bookingType,
+      errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
     );
   }
 }

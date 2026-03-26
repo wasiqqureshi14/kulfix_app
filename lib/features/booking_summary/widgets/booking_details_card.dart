@@ -14,7 +14,7 @@ class BookingDetailsCard extends StatelessWidget {
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.shade100),
+        border: Border.all(color: Colors.black),
       ),
 
       child: Column(
@@ -43,7 +43,7 @@ class BookingDetailsCard extends StatelessWidget {
               Text(
                 "${data["total"]} QAR",
                 style: const TextStyle(
-                  color: Colors.blue,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),

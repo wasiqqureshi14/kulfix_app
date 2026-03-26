@@ -15,6 +15,13 @@ final TimeOfDay endTime;
   required this.endTime,
   });
 
+String formatTimeOfDay(TimeOfDay time) {
+  final hour = time.hourOfPeriod == 0 ? 12 : time.hourOfPeriod;
+  final minute = time.minute.toString().padLeft(2, '0');
+  final period = time.period == DayPeriod.am ? "AM" : "PM";
+
+  return "$hour:$minute $period";
+}
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
@@ -49,131 +56,149 @@ final TimeOfDay endTime;
       
           const SizedBox(height: 12),
       
-          Row(
-            children: [
-      
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
+         Column(
+  children: [
 
-  final booking = ref.read(bookingFilterProvider);
+    GestureDetector(
+      onTap: () async {
+        final pickedDate = await showDatePicker(
+          context: context,
+          initialDate: date,
+          firstDate: DateTime.now(),
+          lastDate: DateTime(2030),
+        );
 
-  if (booking.bookingType == "book_now") {
-    return;
-  }
+        if (pickedDate != null) {
+          notifier.changeDate(pickedDate);
+        }
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 16,
+        ),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Text(
+            "${date.day}-${date.month}-${date.year}",
+          ),
+        ),
+      ),
+    ),
 
-  final pickedDate = await showDatePicker(
-    context: context,
-    initialDate: booking.date,
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2030),
-  );
+    const SizedBox(height: 12),
 
-  if (pickedDate != null) {
-    notifier.changeDate(pickedDate);
-  }
-},
-      
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 16,
-                    ),
-      
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-      
-                    child: Text(
-                      "${date.day}-${date.month}-${date.year}",
-                    ),
-                  ),
-                ),
+   
+    Row(
+      children: [
+
+        Expanded(
+          child: GestureDetector(
+           onTap: () async {
+
+             notifier.clearError();
+            final pickedTime = await showTimePicker(
+              context: context,
+              initialTime: startTime,
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context)
+                      .copyWith(alwaysUse24HourFormat: false),
+                  child: child!,
+                );
+              },
+            );
+
+            if (pickedTime != null) {
+              notifier.changeStartTime(pickedTime);
+            }
+          },
+
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 16,
               ),
-      
-              const SizedBox(width: 12),
-      
-             Expanded(
-  child: GestureDetector(
-    onTap: () async {
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                "Start: ${formatTimeOfDay(startTime)}",
+              ),
+            ),
+          ),
+        ),
 
-     final booking = ref.read(bookingFilterProvider);
+        const SizedBox(width: 12),
 
-final pickedTime = await showTimePicker(
-  context: context,
-  initialTime: startTime,
-);
+  
+        Expanded(
+          child: GestureDetector(
+            onTap: () async {
 
-if (pickedTime != null) {
+               notifier.clearError();
+              final pickedTime = await showTimePicker(
+                context: context,
+                initialTime: endTime,
+                builder: (context, child) {
+                  return MediaQuery(
+                    data: MediaQuery.of(context)
+                        .copyWith(alwaysUse24HourFormat: false),
+                    child: child!,
+                  );
+                },
+              );
 
-  if (booking.bookingType == "book_now") {
-
-    final now = TimeOfDay.now();
-
-    if (pickedTime.hour < now.hour ||
-        (pickedTime.hour == now.hour && pickedTime.minute < now.minute)) {
-      return;
-    }
-
-  }
-
-  notifier.changeStartTime(pickedTime);
-}
-
-    },
-
-    child: Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 16,
-      ),
-
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      child: Text(
-        "Start: ${startTime.format(context)}",
-      ),
+              if (pickedTime != null) {
+                notifier.changeEndTime(pickedTime);
+              }
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 16,
+              ),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                "End: ${formatTimeOfDay(endTime)}",
+              ),
+            ),
+          ),
+        ),
+      ],
     ),
-  ),
-),
-Expanded(
-  child: GestureDetector(
-    onTap: () async {
 
-      final pickedTime = await showTimePicker(
-        context: context,
-        initialTime: endTime,
-      );
+    
+   Consumer(
+      builder: (context, ref, _) {
+        final booking = ref.watch(bookingFilterProvider);
 
-      if (pickedTime != null) {
-        notifier.changeEndTime(pickedTime);
-      }
+        if (booking.errorMessage == null) {
+          return const SizedBox();
+        }
 
-    },
-
-    child: Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 16,
-      ),
-
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12),
-      ),
-
-      child: Text(
-        "End: ${endTime.format(context)}",
-      ),
+        return Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Text(
+            booking.errorMessage!,
+            style: const TextStyle(
+              color: Colors.red,
+              fontSize: 12,
+            ),
+          ),
+        );
+      },
     ),
-  ),
-),
-            ],
-          )
+  ],
+)
         ],
       ),
     );

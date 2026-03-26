@@ -47,7 +47,6 @@ class BookingScreens extends ConsumerWidget {
 
             const SizedBox(height: 20),
 
-         //   DurationSelector(duration: booking.duration),
 
             const SizedBox(height: 20),
 

@@ -16,7 +16,7 @@ class ProviderSummaryCard extends StatelessWidget {
 
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.blue.shade100),
+        border: Border.all(color: Colors.black),
       ),
 
       child: Row(

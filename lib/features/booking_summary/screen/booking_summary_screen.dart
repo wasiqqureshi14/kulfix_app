@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kulfix/features/booking_summary/providers/booking_summary_providers.dart';
-import 'package:kulfix/features/booking_summary/widgets/booking_method_card.dart';
 import 'package:kulfix/features/booking_summary/widgets/booking_summary_card.dart';
 
 import '../widgets/booking_details_card.dart';
@@ -49,7 +48,7 @@ class BookingSummaryScreen extends ConsumerWidget {
 
             const SizedBox(height: 20),
 
-            const PaymentMethodCard(),
+           // const PaymentMethodCard(),
 
             const Spacer(),
 
